@@ -24,7 +24,7 @@ router.post('new_account', '/', async ctx => {
     ctx.status = 400;
     return ctx.body = {
       code: 'INVALID_PARAMETER',
-      message: 'Could not create a location because at least one of the values is bad.',
+      message: 'Could not create an account because at least one of the values is bad.',
       errors: v.errors,
     };
   }

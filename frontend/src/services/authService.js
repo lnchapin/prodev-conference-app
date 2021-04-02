@@ -8,6 +8,9 @@ import { Redirect } from "react-router-dom";
 const apiEndpointSession = apiUrl + "/session";
 const apiEndpointRegister = apiUrl + "/accounts";
 const tokenKey = "token";
+console.log('apiEndpointRegister:', apiEndpointRegister);
+console.log('apiEndpointSession:', apiEndpointSession);
+console.log('process.env[REACT_APP_TEST]: ', process.env['REACT_APP_TEST']);
 
 http.setJwt(getJwt());
 

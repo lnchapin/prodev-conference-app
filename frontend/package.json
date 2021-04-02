@@ -11,6 +11,7 @@
     "bootstrap": "^4.6.0",
     "classnames": "^2.2.6",
     "date-format": "^3.0.0",
+    "dotenv": "^8.2.0",
     "font-awesome": "^4.7.0",
     "javascript-time-ago": "^2.3.4",
     "joi-browser": "^13.4.0",
