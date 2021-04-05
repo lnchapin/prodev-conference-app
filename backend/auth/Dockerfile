@@ -1,4 +1,4 @@
-FROM node:14
+FROM node:15.8.0-alpine3.12
 
 # Create app directory
 WORKDIR /usr/src/
@@ -16,4 +16,4 @@ RUN npm install
 COPY . .
 
 EXPOSE 8082
-CMD [ "node", "server.js" ]
+CMD npm run migrate -- up && npm run start 
