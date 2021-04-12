@@ -15,7 +15,7 @@ exports.setup = function(options, seedLink) {
 };
 
 exports.up = function(db) {
-  return db.createTable('attendees', {
+  return db.createTable('accounts', {
     id: {
       autoIncrement: true,
       notNull: true,
@@ -27,14 +27,16 @@ exports.up = function(db) {
       length: 100,
       notNull: true,
       type: 'string',
+      unique: true,
     },
-    name: {
+    hashed_password: {
+      length: 100,
       notNull: true,
       type: 'string',
-      length: 100,
     },
-    company_name: {
+    name: {
       length: 100,
+      notNull: true,
       type: 'string',
     },
     created: {
@@ -42,25 +44,21 @@ exports.up = function(db) {
       type: 'timestamp',
       defaultValue: new String('CURRENT_TIMESTAMP'),
     },
-    event_id: {
-      type: 'int',
-      unsigned: true,
+    updated: {
       notNull: true,
-      foreignKey: {
-        name: 'attendee_event_id_fk',
-        table: 'events',
-        rules: {
-          onDelete: 'CASCADE',
-          onUpdate: 'RESTRICT',
-        },
-        mapping: 'id',
-      }
+      type: 'timestamp',
+      defaultValue: new String('CURRENT_TIMESTAMP'),
+    },
+    version: {
+      notNull: true,
+      type: 'int',
+      defaultValue: 1,
     },
   });
 };
 
 exports.down = function(db) {
-  return db.dropTable('attendees');
+  return db.dropTable('accounts');
 };
 
 exports._meta = {
