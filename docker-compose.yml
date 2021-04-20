@@ -1,0 +1,83 @@
+version: "3.9"  # optional since v1.27.0
+services:
+    pg: 
+        image: postgres:13
+        environment: 
+            POSTGRES_USER: ${PGUSER}
+            POSTGRES_PASSWORD: ${PGPASSWORD}
+            POSTGRES_DB: conference_app
+        volumes: 
+            - ./data:/var/lib/postgresql/data
+    auth: 
+        build: 
+            context: ./auth
+            dockerfile: Dockerfile
+        depends_on: 
+            - pg
+        environment:
+            JWT_SECRET: ${JWT_SECRET}
+            PORT: 80
+            PGHOST: ${PGHOST}
+            PGPORT: ${PGPORT}
+            PGDATABASE: ${PGDATABASE}
+            PGUSER: ${PGUSER}
+            PGPASSWORD: ${PGPASSWORD}
+            PGAPPNAME: ${PGAPPNAME}
+            WAIT_HOSTS: pg:5432
+        volumes: 
+            - ./auth/src:/usr/src/app/src
+        ports: 
+            - 5001:80
+    location: 
+        build: 
+            context: ./location
+            dockerfile: Dockerfile
+        depends_on: 
+            - pg
+        environment:
+            JWT_SECRET: ${JWT_SECRET}
+            PORT: 80
+            PGHOST: ${PGHOST}
+            PGPORT: ${PGPORT}
+            PGDATABASE: ${PGDATABASE}
+            PGUSER: ${PGUSER}
+            PGPASSWORD: ${PGPASSWORD}
+            PGAPPNAME: ${PGAPPNAME}
+            WAIT_HOSTS: pg:5432
+        volumes: 
+            - ./location/src:/usr/src/location/src
+        ports: 
+            - 5002:80
+    events:
+        build: 
+            context: ./events
+            dockerfile: Dockerfile
+        environment:
+            JWT_SECRET: ${JWT_SECRET}
+            PORT: 80
+            PGHOST: ${PGHOST}
+            PGPORT: ${PGPORT}
+            PGDATABASE: ${PGDATABASE}
+            PGUSER: ${PGUSER}
+            PGPASSWORD: ${PGPASSWORD}
+            PGAPPNAME: ${PGAPPNAME}
+            WAIT_HOSTS: pg:5432
+        depends_on: 
+            - pg
+            - auth
+            - location
+        ports:
+            - 5003:80
+        volumes:
+            - ./events/src:/usr/src/events/src
+    frontend:
+        build:
+            context: ./frontend
+        depends_on:
+            - events
+            - location
+        environment:
+            PORT: 80
+            REACT_APP_API_URL: http://localhost:3900/api
+        ports:
+            - "8081:80"
