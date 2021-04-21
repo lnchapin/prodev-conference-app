@@ -27,7 +27,7 @@ function setJwt(jwt) {
   }
 }
 
-export const apiUrl = process.env['REACT_APP_API_URL'];
+export const apiUrl = '/api';
 
 export default {
   get: axios.get,

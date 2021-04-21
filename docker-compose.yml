@@ -74,11 +74,14 @@ services:
     frontend:
         build:
             context: ./frontend
+            dockerfile: Dockerfile
         depends_on:
             - events
             - location
-        environment:
-            PORT: 80
-            REACT_APP_API_URL: http://localhost:3900/api
+            - pg
+            - auth
+        # environment:
+        #     PORT: 80
+        #     REACT_APP_API_URL: http://localhost:3900/api
         ports:
             - "8081:80"
