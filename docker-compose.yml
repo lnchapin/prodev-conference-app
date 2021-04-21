@@ -80,8 +80,5 @@ services:
             - location
             - pg
             - auth
-        # environment:
-        #     PORT: 80
-        #     REACT_APP_API_URL: http://localhost:3900/api
         ports:
             - "8081:80"
